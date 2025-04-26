@@ -7,6 +7,13 @@ from dataclasses import dataclass
 # products = [1]
 # products_set = set()
 
+'''
+Snack: 10
+Drinks: 5
+'''
+
+# 'Snack', 'snack', 'SnAck'
+
 class Product:
     def __init__(self, name: str, price: int):
         self.name = name
@@ -28,12 +35,30 @@ class DataProduct:
             raise ValueError("Price can not be less than or equals to 0")
 
 
+class Snack(Product):
+    ...
+
+
+class Drink(Product):
+    ...
+
 # class VendingMachine(UserList):
 class VendingMachine:
     def __init__(self):
         self.products = []
+        self.limits = {
+            Snack: 10,
+            Drink: 5
+        }
+
+        self.amounts = {
+            Snack: 0,
+            Drink: 0
+        }
 
     def add_product(self, product: Product):
+        self.amounts[product.__class__] += 1
+
         if product in self.products:
             # print("Please check products")
             raise ValueError(f"Please check if product {product.name} is not already in a machine")
@@ -56,7 +81,7 @@ class VendingMachine:
 
 
 # snickers = Product("Snickers", -10)
-data_snicker = DataProduct("Snickers", 10, [1, 2, 3])
+data_snicker = Snack("Snickers", 10)
 # data_snicker.price = 1000
 # data_snicker.ingredients.append(4)
 print(data_snicker)
@@ -78,7 +103,7 @@ machine.buy_product('Snickers', 10)
 # machine.add_product(snickers)
 # machine.add_product(snickers)
 
-print(machine.products)
+print(machine.amounts)
 
 # products.append()
 # machine.append()
